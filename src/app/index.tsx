@@ -1,6 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View,FlatList } from 'react-native';
+import { StyleSheet, Text, View,FlatList,TextInput, Button } from 'react-native';
 import FoodListItems from '../components/FoodListItems';
+import { useState } from 'react';
 
 const FoodItems = [{
   label: 'Pizza',
@@ -18,8 +19,18 @@ const FoodItems = [{
 
 
 export default function App() {
+  const [search,setSearch] = useState('');
+
+  const performSearch = () => {
+    console.warn("Searching for:", search);
+
+    setSearch('');
+  }
+
   return (
     <View style={styles.container}>
+      <TextInput value={search} onChangeText={setSearch} placeholder='Search...' style={styles.input}/>
+      {search && <Button title='search' onPress={performSearch}/> }
       <FlatList
           data={FoodItems} // Wrap FoodListItems inside square brackets
           renderItem={({ item }) => <FoodListItems item={item} />}
@@ -38,4 +49,9 @@ const styles = StyleSheet.create({
     borderRadius:20,
     gap: 10,
   },
+  input:{   
+    padding: 10,
+    backgroundColor: '#f9f9f9',
+    borderRadius: 20,
+  }
 });
