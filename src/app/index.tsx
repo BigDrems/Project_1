@@ -1,17 +1,30 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View,FlatList } from 'react-native';
 import FoodListItems from '../components/FoodListItems';
 
-
+const FoodItems = [{
+  label: 'Pizza',
+  calarie: 56,
+  brand: 'Dominos',
+  place: 'Home',
+},
+{
+  label: 'Apple', 
+  calarie: 20,
+  brand: 'Fuji',
+  place: 'Japan',
+},
+];
 
 
 export default function App() {
   return (
     <View style={styles.container}>
-     <FoodListItems item = {{label:'pizza',cal:488,quantity:3,brand:`andrea's pizza`}}/>
-  
-      <StatusBar style="auto" />
-
+      <FlatList
+          data={FoodItems} // Wrap FoodListItems inside square brackets
+          renderItem={({ item }) => <FoodListItems item={item} />}
+          contentContainerStyle={{gap: 5}}
+      />
     </View>
   );
 }
