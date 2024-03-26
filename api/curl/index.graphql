@@ -1,0 +1,64 @@
+type Food {
+  category: String
+  categoryLabel: String
+  foodId: String
+  image: String
+  knownAs: String
+  label: String
+  nutrients: Nutrients
+}
+
+type HintsEntry {
+  food: Food
+  measures: [MeasuresEntry]
+}
+
+type Links {
+  next: Next
+}
+
+type MeasuresEntry {
+  label: String
+  qualified: [QualifiedEntry]
+  uri: String
+  weight: Float
+}
+
+type Next {
+  href: String
+  title: String
+}
+
+type Nutrients {
+  CHOCDF: Float
+  ENERC_KCAL: Int
+  FAT: Float
+  FIBTG: Float
+  PROCNT: Float
+}
+
+type QualifiedEntry {
+  qualifiers: [QualifiersEntry]
+  weight: Int
+}
+
+type QualifiersEntry {
+  label: String
+  uri: String
+}
+
+type QueryResult {
+  _links: Links
+  hints: [HintsEntry]
+  parsed: [JSON]
+  text: String
+}
+
+type Query {
+  myQuery(ingr: String): QueryResult
+    @rest(
+      endpoint: "https://api.edamam.com/api/food-database/v2/parser?app_id=$app_id&app_key=$app_key"
+      headers: [{ name: "accept", value: "application/json" }]
+      configuration: "edamam"
+    )
+}
