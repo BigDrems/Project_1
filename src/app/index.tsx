@@ -55,3 +55,11 @@ const styles = StyleSheet.create({
     borderRadius: 20,
   }
 });
+
+
+/*
+EMAM PASS: cy76j7sn3KJ!DnM 
+API ID: cd8739b1 
+API KEY: 
+0806cf9b0fd84df1736b2cfcd5b78f47	
+*/
