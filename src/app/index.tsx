@@ -1,39 +1,62 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View,FlatList,TextInput, Button } from 'react-native';
+import { StyleSheet, Text, View,FlatList,TextInput, Button,ActivityIndicator } from 'react-native';
 import FoodListItems from '../components/FoodListItems';
 import { useState } from 'react';
+import{ gql,useLazyQuery} from'@apollo/client';
 
-const FoodItems = [{
-  label: 'Pizza',
-  calarie: 56,
-  brand: 'Dominos',
-  place: 'Home',
-},
-{
-  label: 'Apple', 
-  calarie: 20,
-  brand: 'Fuji',
-  place: 'Japan',
-},
-];
+const query = gql `
+query myQuery($ingr: String) {
+  myQuery(ingr: $ingr) {
+    parsed
+    text
+    hints {
+      food {
+        label
+        category
+        foodId
+        knownAs
+        nutrients {
+          ENERC_KCAL
+        }
+      }
+    }
+  }
+}
+`;
 
 
-export default function App() {
+export default function SearchQuery() {
   const [search,setSearch] = useState('');
+  const [runSearch,{data,loading,error}] = useLazyQuery(query,{variables:{ingr:'Beef'}});
+
 
   const performSearch = () => {
-    console.warn("Searching for:", search);
-
+    runSearch({variables:{ingr:search}});
     setSearch('');
   }
+
+  // if(loading) {
+  //   return <ActivityIndicator/>
+  // }
+
+  if(error){
+    return <Text>Failed to Error!</Text>
+  }
+
+  const item  = data?.myQuery?.hints || [];
+
+  console.log(JSON.stringify(data,null,2));
 
   return (
     <View style={styles.container}>
       <TextInput value={search} onChangeText={setSearch} placeholder='Search...' style={styles.input}/>
       {search && <Button title='search' onPress={performSearch}/> }
+
+      {loading && <ActivityIndicator/>} 
       <FlatList
-          data={FoodItems} // Wrap FoodListItems inside square brackets
+          data={item} // Wrap FoodListItems inside square brackets
           renderItem={({ item }) => <FoodListItems item={item} />}
+          ListEmptyComponent={<Text>Search a food.</Text>}
           contentContainerStyle={{gap: 5}}
       />
     </View>

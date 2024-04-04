@@ -1,17 +1,18 @@
 import { AntDesign } from '@expo/vector-icons';
 import { StyleSheet, Text, View } from 'react-native';
 
+
 const FoodListItems = ({item}) =>{
     return(
         <View style = {style.container}>
             <View style={style.insideContainer}>
                 <Text style={style.text}>
-                    {item.label}
+                    {item.food.label} 
                 </Text>
                 <Text style = {style.description}>
-                    {item.cal} cal, 
-                    {item.quantity} pieces, 
-                    {item.brand}
+                    {item.food.nutrients.ENERC_KCAL} calories, 
+                    {item.food.category}, 
+                    {item.food. knownAs}
                 </Text>
             </View>
         <AntDesign name="pluscircleo" style= {style.button} />
@@ -42,11 +43,12 @@ const FoodListItems = ({item}) =>{
         fontSize:12,
         color:'gray',
         padding:3,
-        letterSpacing:.8,
+        letterSpacing:1,
     },
     button:{
         fontSize: 24,
         color:'royalblue',
     },
   });
+  
   export default FoodListItems;
